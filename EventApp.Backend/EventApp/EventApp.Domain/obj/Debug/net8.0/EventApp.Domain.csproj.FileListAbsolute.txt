@@ -1,0 +1,11 @@
+C:\Users\CVS\source\repos\EventApp\EventApp.Backend\EventApp\EventApp.Domain\bin\Debug\net8.0\EventApp.Domain.deps.json
+C:\Users\CVS\source\repos\EventApp\EventApp.Backend\EventApp\EventApp.Domain\bin\Debug\net8.0\EventApp.Domain.dll
+C:\Users\CVS\source\repos\EventApp\EventApp.Backend\EventApp\EventApp.Domain\bin\Debug\net8.0\EventApp.Domain.pdb
+C:\Users\CVS\source\repos\EventApp\EventApp.Backend\EventApp\EventApp.Domain\obj\Debug\net8.0\EventApp.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\CVS\source\repos\EventApp\EventApp.Backend\EventApp\EventApp.Domain\obj\Debug\net8.0\EventApp.Domain.AssemblyInfoInputs.cache
+C:\Users\CVS\source\repos\EventApp\EventApp.Backend\EventApp\EventApp.Domain\obj\Debug\net8.0\EventApp.Domain.AssemblyInfo.cs
+C:\Users\CVS\source\repos\EventApp\EventApp.Backend\EventApp\EventApp.Domain\obj\Debug\net8.0\EventApp.Domain.csproj.CoreCompileInputs.cache
+C:\Users\CVS\source\repos\EventApp\EventApp.Backend\EventApp\EventApp.Domain\obj\Debug\net8.0\EventApp.Domain.dll
+C:\Users\CVS\source\repos\EventApp\EventApp.Backend\EventApp\EventApp.Domain\obj\Debug\net8.0\refint\EventApp.Domain.dll
+C:\Users\CVS\source\repos\EventApp\EventApp.Backend\EventApp\EventApp.Domain\obj\Debug\net8.0\EventApp.Domain.pdb
+C:\Users\CVS\source\repos\EventApp\EventApp.Backend\EventApp\EventApp.Domain\obj\Debug\net8.0\ref\EventApp.Domain.dll

@@ -1,0 +1,26 @@
+.inputField {
+    margin-block: 10px;
+    display: inline-block;
+    width: 100%;
+    height: 45px; 
+    padding: 0 10px; 
+    border-radius: 10px; 
+    border: 2px solid #2EE59D; 
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px; 
+    font-weight: 500; 
+    color: #524f4e; 
+    background: white; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+    transition: border-color 0.3s; 
+}
+
+.inputField:focus {
+    outline: none; 
+    border-color: #2EE59D; 
+    box-shadow: 0 0 5px rgba(46, 229, 157, 0.5); 
+}
+
+.inputField::placeholder {
+    color: #ccc; 
+}

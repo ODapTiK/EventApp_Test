@@ -1,0 +1,30 @@
+.participateButton {
+    text-decoration: none;
+    display: inline-block;
+    min-width: 140px;
+    max-width: auto;
+    height: 45px;
+    line-height: 45px;
+    border-radius: 10px;
+    margin: 10px 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: 2px;
+    font-weight: 600;
+    color: #ff8513; 
+    background: white; 
+    border: 2px solid #ff8513; 
+    box-shadow: 0 8px 15px rgba(0, 0, 0, .1);
+    transition: .3s;
+    padding: 0 20px; 
+}
+
+.participateButton:hover {
+    background: #ff8513; 
+    color: white; 
+    border: 2px solid rgb(255, 111, 0); 
+    box-shadow: 0 15px 20px rgba(198, 93, 61, .4);
+    transform: translateY(-7px);
+}

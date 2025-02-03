@@ -1,0 +1,17 @@
+C:\Users\CVS\source\repos\EventApp\EventApp.Backend\EventApp\EventApp.Persistence\bin\Debug\net8.0\EventApp.Persistence.deps.json
+C:\Users\CVS\source\repos\EventApp\EventApp.Backend\EventApp\EventApp.Persistence\bin\Debug\net8.0\EventApp.Persistence.dll
+C:\Users\CVS\source\repos\EventApp\EventApp.Backend\EventApp\EventApp.Persistence\bin\Debug\net8.0\EventApp.Persistence.pdb
+C:\Users\CVS\source\repos\EventApp\EventApp.Backend\EventApp\EventApp.Persistence\bin\Debug\net8.0\EventApp.Application.dll
+C:\Users\CVS\source\repos\EventApp\EventApp.Backend\EventApp\EventApp.Persistence\bin\Debug\net8.0\EventApp.Domain.dll
+C:\Users\CVS\source\repos\EventApp\EventApp.Backend\EventApp\EventApp.Persistence\bin\Debug\net8.0\EventApp.Application.pdb
+C:\Users\CVS\source\repos\EventApp\EventApp.Backend\EventApp\EventApp.Persistence\bin\Debug\net8.0\EventApp.Domain.pdb
+C:\Users\CVS\source\repos\EventApp\EventApp.Backend\EventApp\EventApp.Persistence\obj\Debug\net8.0\EventApp.Persistence.csproj.AssemblyReference.cache
+C:\Users\CVS\source\repos\EventApp\EventApp.Backend\EventApp\EventApp.Persistence\obj\Debug\net8.0\EventApp.Persistence.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\CVS\source\repos\EventApp\EventApp.Backend\EventApp\EventApp.Persistence\obj\Debug\net8.0\EventApp.Persistence.AssemblyInfoInputs.cache
+C:\Users\CVS\source\repos\EventApp\EventApp.Backend\EventApp\EventApp.Persistence\obj\Debug\net8.0\EventApp.Persistence.AssemblyInfo.cs
+C:\Users\CVS\source\repos\EventApp\EventApp.Backend\EventApp\EventApp.Persistence\obj\Debug\net8.0\EventApp.Persistence.csproj.CoreCompileInputs.cache
+C:\Users\CVS\source\repos\EventApp\EventApp.Backend\EventApp\EventApp.Persistence\obj\Debug\net8.0\EventApp.7587157F.Up2Date
+C:\Users\CVS\source\repos\EventApp\EventApp.Backend\EventApp\EventApp.Persistence\obj\Debug\net8.0\EventApp.Persistence.dll
+C:\Users\CVS\source\repos\EventApp\EventApp.Backend\EventApp\EventApp.Persistence\obj\Debug\net8.0\refint\EventApp.Persistence.dll
+C:\Users\CVS\source\repos\EventApp\EventApp.Backend\EventApp\EventApp.Persistence\obj\Debug\net8.0\EventApp.Persistence.pdb
+C:\Users\CVS\source\repos\EventApp\EventApp.Backend\EventApp\EventApp.Persistence\obj\Debug\net8.0\ref\EventApp.Persistence.dll

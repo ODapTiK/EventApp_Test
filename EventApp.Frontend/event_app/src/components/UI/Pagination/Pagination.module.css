@@ -1,0 +1,41 @@
+.paginationContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.paginationButton {
+    text-decoration: none;
+    display: inline-block;
+    min-width: 40px; /* Уменьшено для кнопок страниц */
+    height: 35px; /* Уменьшено для удобства */
+    line-height: 35px;
+    border-radius: 5px; /* Меньший радиус для кнопок пагинации */
+    margin: 0 5px; /* Уменьшен отступ между кнопками */
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px; /* Увеличен размер шрифта для лучшей читаемости */
+    text-align: center;
+    letter-spacing: 1px;
+    font-weight: 600;
+    color: #2EE59D; 
+    background: transparent;
+    border: 2px solid #2EE59D;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: .3s;
+    padding: 0 10px; /* Уменьшено для гармонии с размером кнопки */
+}
+
+.paginationButton:hover {
+    background: #2EE59D;
+    color: white;
+    transform: translateY(-3px); /* Меньше смещение для неожиданного опыта */
+    box-shadow: 0 6px 12px rgba(46, 229, 157, .4);
+}
+
+.paginationButton.active {
+    background: #2EE59D; /* Подсветка активной страницы */
+    color: white;
+    cursor: default; /* Деактивируем курсор для активной кнопки */
+    box-shadow: none; /* Убираем тень для активной кнопки */
+}

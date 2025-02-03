@@ -1,0 +1,30 @@
+.loginButton {
+    text-decoration: none;
+    display: inline-block;
+    min-width: 140px; 
+    max-width: auto; 
+    height: 45px;
+    line-height: 45px;
+    border-radius: 10px;
+    margin: 10px 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: 2px;
+    font-weight: 600;
+    color: #2EE59D; 
+    background: transparent; 
+    border: 2px solid #2EE59D; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: .3s;
+    padding: 0 20px; 
+}
+
+.loginButton:hover {
+    background: #2EE59D; 
+    color: white; 
+    transform: translateY(-5px); 
+    box-shadow: 0 8px 15px rgba(46, 229, 157, .4);
+}
+

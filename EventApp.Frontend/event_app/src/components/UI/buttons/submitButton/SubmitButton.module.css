@@ -1,0 +1,27 @@
+.submitButton {
+    text-decoration: none;
+    display: inline-block;
+    min-width: 140px;
+    max-width: auto;
+    height: 45px;
+    line-height: 45px;
+    border-radius: 10px;
+    margin: 10px 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: 2px;
+    font-weight: 600;
+    color: white;
+    background: #2EE59D;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, .1);
+    transition: .3s;
+    padding: 0 20px; 
+  }
+  .submitButton:hover {
+    background: white;
+    box-shadow: 0 15px 20px rgba(46, 229, 157, .4);
+    color: #524f4e;
+    transform: translateY(-7px);
+  }

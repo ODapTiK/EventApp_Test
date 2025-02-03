@@ -1,0 +1,110 @@
+.container{
+    display: flex;
+    gap: 50px;
+    justify-content: center;
+    width: 100%;
+}
+
+.filterContainer{
+    display: flex;
+    align-items: center;
+    height: 85vh;
+}
+
+.eventList {
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    max-height: 72vh; 
+    overflow-y: auto; 
+}
+
+.eventListTitle {
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 24px;
+    color: #333;  
+    margin: 20px 0;
+}
+
+.userInfo {
+    min-width: 50vh;
+    max-width: auto;
+    margin: 20px 0;
+    padding: 15px;
+    border: 2px solid #2EE59D;
+    border-radius: 10px;
+    background-color: white;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.userInfoItem {
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.label {
+    font-weight: 600;
+    color: #524f4e;
+}
+
+.value {
+    font-weight: 500;
+    color: #524f4e;
+}
+
+.infoTitle {
+    min-width: 50vh;
+    max-width: auto;
+    margin: 20px 0;
+    padding: 15px;
+    border: 2px solid #2EE59D;
+    border-radius: 10px;
+    background-color: white;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s; 
+}
+
+.infoTitle:hover {
+    background-color: #2EE59D;
+    transform: scale(1.02);
+    color: #ffffff; 
+}
+
+.changeInfoButton {
+    text-decoration: none;
+    display: inline-block;
+    min-width: 50vh;
+    max-width: auto; 
+    height: 55px;
+    line-height: 55px;
+    border-radius: 10px;
+    margin: 10px 0;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: 2px;
+    font-weight: 600;
+    color: black; 
+    background: transparent; 
+    border: 2px solid #2EE59D; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: .3s;
+    padding: 0 20px; 
+    transition: all 0.3s; 
+}
+
+.changeInfoButton:hover {
+    background: #2EE59D; 
+    color: white; 
+    transform: translateY(-5px); 
+    box-shadow: 0 8px 15px rgba(46, 229, 157, .4);
+}
