@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import Input from "../../input/Input";
 import CancelButton from "../../buttons/cancelButton/CancelButton";
+import baseUrl from "../../../Utils/baseUrl";
 import SubmitButton from "../../buttons/submitButton/SubmitButton";
 import csbstyle from "../../../../styles/CancelSubmitButtonStyle.module.css"
 import classes from "./LoginForm.module.css"
@@ -19,7 +20,7 @@ const LoginForm = ({setModalVisibility, isAdminLogin, setCurrentUser, setIsAuthe
             password: loginData.Password
         }
         if(isAdminLogin){
-            fetch("https://localhost:7164/api/Admin/AuthAdmin/Auth", {
+            fetch(`${baseUrl}api/Admin/AuthAdmin/Auth`, {
                 body: JSON.stringify(body),
                 method: "PUT",
                 headers: {"Content-type": "application/json"}
@@ -44,7 +45,7 @@ const LoginForm = ({setModalVisibility, isAdminLogin, setCurrentUser, setIsAuthe
             })
         }
         else{
-            fetch("https://localhost:7164/api/Participant/Auth", {
+            fetch(`${baseUrl}api/Participant/Auth`, {
                 body: JSON.stringify(body),
                 method: "PUT",
                 headers: {"Content-type": "application/json"}
@@ -60,7 +61,7 @@ const LoginForm = ({setModalVisibility, isAdminLogin, setCurrentUser, setIsAuthe
                 localStorage.setItem("RefreshToken", jsonObject.refreshToken);
                 localStorage.setItem("isAdmin", "false");
                 setTokens(jsonObject);
-                fetch("https://localhost:7164/api/Participant", {
+                fetch(`${baseUrl}/api/Participant`, {
                     method: "GET",
                     headers: {"Authorization": `Bearer ${jsonObject.accessToken}`}
                 })

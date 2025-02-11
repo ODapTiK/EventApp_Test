@@ -5,7 +5,8 @@ import Modal from "../UI/modal/eventCardModal/Modal";
 import CreateUpdateEventForm from "../UI/forms/CreateUpdateEventForm/CreateUpdateEventForm";
 import EventCardsList from "../UI/EventCardsList/EventCardsList";
 import EventFilter from "../UI/EventFilter/EventFilter";
-import Pagination from "../UI/Pagination/Pagination"
+import Pagination from "../UI/Pagination/Pagination";
+import baseUrl from "../Utils/baseUrl";
 
 function Events({isAdmin,
                 createUpdateEventModalVisibility,
@@ -23,7 +24,7 @@ function Events({isAdmin,
   const [updateId, setUpdateId] = useState('');
 
   const updateEvents = (page) => {
-    fetch(`https://localhost:7164/api/Events/${page}`)
+    fetch(`${baseUrl}api/Events/${page}`)
         .then((response) => {
             if(!response.ok){
                 throw new Error(response.status);
@@ -41,7 +42,7 @@ function Events({isAdmin,
   } 
 
   useEffect(() => {
-    fetch("https://localhost:7164/api/Events/1")
+    fetch(`${baseUrl}api/Events/1`)
         .then((response) => {
             if(!response.ok){
                 throw new Error(response.status);

@@ -3,6 +3,7 @@ import cl from "../../styles/ContentContainer.module.css"
 import EventCardsList from "../UI/EventCardsList/EventCardsList";
 import Pagination from "../UI/Pagination/Pagination";
 import { useAccessToken } from "../Utils/AuthContext";
+import baseUrl from "../Utils/baseUrl";
 
 const Profile = ({user, setEventModalVisibility, setCurrentEvent, setIsCreatingUser=()=>{}, setIsLoginModal=()=>{}, 
     setLoginModalVisibility=()=>{}, setCurrentUser}) => {
@@ -21,7 +22,7 @@ const Profile = ({user, setEventModalVisibility, setCurrentEvent, setIsCreatingU
     }
 
     const updateEvents = (page) => {
-        fetch(`https://localhost:7164/api/Participant/Events/${page}`,
+        fetch(`${baseUrl}api/Participant/Events/${page}`,
             {
                 method: "GET",
                 headers: {
@@ -46,7 +47,7 @@ const Profile = ({user, setEventModalVisibility, setCurrentEvent, setIsCreatingU
     }
 
     useEffect(() => {
-        fetch("https://localhost:7164/api/Participant/Events/1",
+        fetch(`${baseUrl}api/Participant/Events/1`,
             {
                 method: "GET",
                 headers: {

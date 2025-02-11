@@ -23,7 +23,12 @@ namespace EventApp.WebAPI
             var services = builder.Services;
             var configuration = builder.Configuration;
             services.AddDbContext<EventAppDbContext>(options =>
-                options.UseNpgsql(configuration.GetConnectionString("EventAppDB")));
+                options.UseNpgsql(configuration.GetConnectionString("EventAppDB"), npgsqlOptionsAction => 
+                    npgsqlOptionsAction.EnableRetryOnFailure(
+                        maxRetryCount: 5,
+                        maxRetryDelay: TimeSpan.FromSeconds(30),
+                        errorCodesToAdd: null)
+                    ));
             services.AddScoped<IEventAppDbContext>(provider => provider.GetService<EventAppDbContext>());
 
             services.Configure<JwtOptions>(configuration.GetSection(nameof(JwtOptions)));

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Input from "../../input/Input";
+import baseUrl from "../../../Utils/baseUrl";
 import CancelButton from "../../buttons/cancelButton/CancelButton";
 import SubmitButton from "../../buttons/submitButton/SubmitButton";
 import classes from "./CreateUpdateEventForm.module.css";
@@ -52,7 +53,7 @@ const CreateUpdateEventForm = ({isCreating=true, updateId='', setModalVisibility
                 maxParticipants: eventDetails.maxParticipants,
                 image: eventDetails.image
             }
-            fetch("https://localhost:7164/api/Admin/CreateEvent/Event", {
+            fetch(`${baseUrl}api/Admin/CreateEvent/Event`, {
                 body: JSON.stringify(body),
                 method: "POST",
                 headers: {
@@ -86,7 +87,7 @@ const CreateUpdateEventForm = ({isCreating=true, updateId='', setModalVisibility
                 maxParticipants: eventDetails.maxParticipants,
                 image: eventDetails.image
             }
-            fetch("https://localhost:7164/api/Admin/UpdateEvent/Event", {
+            fetch(`${baseUrl}api/Admin/UpdateEvent/Event`, {
                 body: JSON.stringify(body),
                 method: "PUT",
                 headers: {

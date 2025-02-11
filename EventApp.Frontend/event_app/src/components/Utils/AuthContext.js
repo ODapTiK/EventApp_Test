@@ -1,4 +1,5 @@
 import {useState, useEffect, createContext, useContext} from "react"; 
+import baseUrl from "./baseUrl";
 
 const Context = createContext();
 
@@ -17,7 +18,7 @@ export default function AuthContext({children, setIsAdmin, setIsAuthenticated, s
                 refreshToken: oldRefreshToken,
                 accessToken: oldAccessToken
             }
-            fetch("https://localhost:7164/api/Token/Refresh", {
+            fetch(`${baseUrl}api/Token/Refresh`, {
                 body: JSON.stringify(body),
                 method: "PUT",
                 headers: {"Content-type": "application/json"}
@@ -37,7 +38,7 @@ export default function AuthContext({children, setIsAdmin, setIsAuthenticated, s
                     setIsAdmin(true);
                 }
                 else{
-                    fetch("https://localhost:7164/api/Participant", {
+                    fetch(`${baseUrl}api/Participant`, {
                         method: "GET",
                         headers: {"Authorization": `Bearer ${jsonObject.accessToken}`}
                     })

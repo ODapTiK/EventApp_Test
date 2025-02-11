@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import EventActionButton from "../buttons/EventActionButton/EventActionButton";
 import classes from "./EventCard.module.css"
 import { useAccessToken } from "../../Utils/AuthContext";
+import baseUrl from "../../Utils/baseUrl";
 
 const EventCard = ({_event, isAuthenticated, isAdmin=false, setUpdateEventModalVisibility=()=>{}, setCurrentEvent=()=>{}, 
                     setModalVisibility, setIsCreatingEvent, setUpdateId, setEvents, isParticipating,
@@ -27,7 +28,7 @@ const EventCard = ({_event, isAuthenticated, isAdmin=false, setUpdateEventModalV
     const handleParticipation = (e) =>{
         e.stopPropagation();
         if(!participation){
-            fetch(`https://localhost:7164/api/Participant/Events/Subscribe/${_event.id}`, {
+            fetch(`${baseUrl}api/Participant/Events/Subscribe/${_event.id}`, {
                 method: "GET",
                 headers: {"Authorization": `Bearer ${accessToken}`}
             })
@@ -46,7 +47,7 @@ const EventCard = ({_event, isAuthenticated, isAdmin=false, setUpdateEventModalV
             })
         }
         else{
-            fetch(`https://localhost:7164/api/Participant/Events/Unsubscribe/${_event.id}`, {
+            fetch(`${baseUrl}api/Participant/Events/Unsubscribe/${_event.id}`, {
                 method: "GET",
                 headers: {"Authorization": `Bearer ${accessToken}`}
             })
@@ -74,7 +75,7 @@ const EventCard = ({_event, isAuthenticated, isAdmin=false, setUpdateEventModalV
 
     const handleDelete = (e) => {
         e.stopPropagation();
-        fetch(`https://localhost:7164/api/Admin/DeleteEvent/Event/${_event.id}`, {
+        fetch(`${baseUrl}api/Admin/DeleteEvent/Event/${_event.id}`, {
             method: "DELETE",
             headers: {"Authorization": `Bearer ${accessToken}`}
         })

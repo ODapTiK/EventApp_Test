@@ -4,6 +4,7 @@ import csbstyle from "../../../../styles/CancelSubmitButtonStyle.module.css"
 import Input from "../../input/Input";
 import SubmitButton from "../../buttons/submitButton/SubmitButton";
 import CancelButton from "../../buttons/cancelButton/CancelButton";
+import baseUrl from "../../../Utils/baseUrl";
 import { useAccessToken } from "../../../Utils/AuthContext";
 
 const RegisterParticipantForm = ({setModalVisibility, isCreating=true}) => {
@@ -23,7 +24,7 @@ const RegisterParticipantForm = ({setModalVisibility, isCreating=true}) => {
                 password: participantInfo.Password,
                 birthDate: participantInfo.BirthDate
             }
-            fetch("https://localhost:7164/api/Participant", {
+            fetch(`${baseUrl}api/Participant`, {
                 body: JSON.stringify(body),
                 method: "POST",
                 headers:  {"Content-type": "application/json"}
@@ -44,7 +45,7 @@ const RegisterParticipantForm = ({setModalVisibility, isCreating=true}) => {
                 surname: participantInfo.Surname,
                 birthDate: participantInfo.BirthDate
             }
-            fetch("https://localhost:7164/api/Participant", {
+            fetch(`${baseUrl}api/Participant`, {
                 body: JSON.stringify(body),
                 method: "PUT",
                 headers:  {

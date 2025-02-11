@@ -3,6 +3,7 @@ import Input from "../input/Input"
 import SubmitButton from "../buttons/submitButton/SubmitButton";
 import classes from "./EventFilter.module.css"
 import CancelButton from "../buttons/cancelButton/CancelButton";
+import baseUrl from "../../Utils/baseUrl";
 
 const EventFilter = ({setCurrentPage, setEvents, setTotalPages}) => {
 
@@ -20,7 +21,7 @@ const EventFilter = ({setCurrentPage, setEvents, setTotalPages}) => {
             Location: location,
             Page: 1
         }
-        fetch("https://localhost:7164/api/Events/Filter", {
+        fetch(`${baseUrl}api/Events/Filter`, {
             method: "PUT",
             body: JSON.stringify(body),
             headers: {"Content-type": "application/json"}
@@ -44,7 +45,7 @@ const EventFilter = ({setCurrentPage, setEvents, setTotalPages}) => {
         setDate('');
         setCategory('');
         setLocation('');
-        fetch("https://localhost:7164/api/Events/1")
+        fetch(`${baseUrl}api/Events/1`)
             .then((response) => {
                 if(!response.ok){
                 throw new Error(response.status);

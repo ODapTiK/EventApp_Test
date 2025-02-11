@@ -41,6 +41,7 @@ my-project/
 ### Предварительные требования
 
 - Установленный Docker.
+- Установленный PostgreSql.
 - Установленный Git.
 
 ### Клонирование репозитория
@@ -49,13 +50,53 @@ my-project/
 
    bash
    git clone https://github.com/ODapTiK/EventApp_Test.git
-   cd EventApp_Test
 
-   Запуск приложения
+### Запуск приложения
+
+#### Подготовка к запуску
+
+В первую очередь вам нужно залесть в файлы appsettings.json и appsettings.Development.json и в строку подключения к базе данных ввести свои корректные данные.
+Для этого перейдите в директорию WebAPI командой: 
+   cd EventApp.Backend/EventApp/EventApp.WebAPI
+Там будут доступны эти файлы.
+Далее необходимо пройти процедуру создания базы данных для приложения. В этом же репозитории необходимо выполнить серию команд:
+   dotnet ef migrations add ИМЯ_МИГРАЦИИ --project ../EventApp.Persistence
+После успешного создания миграции:
+   dotnet ef database update
    
-Перейдите в директорию с серверной частью и выполните команду для сборки и запуска контейнеров:
+#### Запуск серверной части
 
-cd EventApp/EventApp.Backend/EventApp/EventApp.WebAPI
-docker-compose up --build
+Перейдите в директорию с серверной частью в папку с исполняемым файлом EventApp.WebAPI.csproj. К ней можно перейти из корня репозитория командой:
 
-Клиентская часть запускается командой npm start.
+   cd EventApp.Backend/EventApp/EventApp.WebAPI
+
+Далее необходимо выполнить серию команд: 
+
+   dotnet restore
+   dotnet run
+
+После этого серверная часть запустится по адресу http://localhost:5173/.
+
+#### Запуск клиентской части
+
+Далее перейдите в директорию с package.json файлом клиентской части. К ней можно перейти из корня репозитория командой:
+
+   cd EventApp.Frontend/event_app
+
+Далее необходимо запустить клиентскую часть командой npm start.
+Клиентская чать станет доступна по адресу http://localhost:3000.
+
+### Запуск приложения в Docker
+
+API приложения поддерживает docker, но предварительно необходимо провести некоторые манипуляции.
+
+   - Открыть порт 5173 для входящих подключений
+   - В файле pg_hba.config(PostgreSQL/version/data/pg_hba.config) добавить для базы данных разрешенное подключение: host    EventAppDB    postgres    ВАШ_IP/32    md5
+   - Также в файлах API appsettings.json, appsettings.Development.json и docker-compose.yml необходимо заменить значения строк подключения на валидные для вашего сервиса postgres.
+
+   После выполнения всех этих действий корректно, соберите docker-образ:
+
+      cd EventApp.Backend/EventApp
+      docker-compose up --build
+
+   API запустится в docker-контейнере и станет доступно по адресу http://localhost:5173.

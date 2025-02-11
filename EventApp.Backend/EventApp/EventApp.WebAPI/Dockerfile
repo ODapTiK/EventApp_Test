@@ -14,13 +14,18 @@ COPY . .
 WORKDIR "/src/EventApp.WebAPI"
 RUN dotnet build "./EventApp.WebAPI.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
+# Установка dotnet-ef
+RUN dotnet tool install --global dotnet-ef
+ENV PATH="$PATH:/root/.dotnet/tools"
+
 # Этот этап используется для публикации проекта службы, который будет скопирован на последний этап
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "./EventApp.WebAPI.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # Этот этап используется в рабочей среде или при запуске из VS в обычном режиме (по умолчанию, когда конфигурация отладки не используется)
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS final
 WORKDIR /app
+EXPOSE 5173
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "EventApp.WebAPI.dll"]

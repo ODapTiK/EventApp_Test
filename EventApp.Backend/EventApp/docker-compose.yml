@@ -1,0 +1,27 @@
+﻿version: '3.8'  # Обновите версию, если необходимо
+
+services:
+  app:
+    image: eventapp:release
+    build:
+      context: .
+      dockerfile: EventApp.WebAPI/Dockerfile
+    ports:
+      - "5173:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=db;Port=5432;Database=ИМЯ_ВАШЕЙ_БД;Username=ИМЯ_ПОЛЬЗОВАТЕЛЯ;Password=ПАРОЛЬ
+    depends_on:
+      - db
+
+  db:
+    image: postgres:13
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: EventAppDB
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ramazan225
+
+
+
