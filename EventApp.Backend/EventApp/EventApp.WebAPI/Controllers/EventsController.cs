@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EventApp
@@ -6,45 +7,67 @@ namespace EventApp
     [Route("api/[controller]")]
     public class EventsController : BaseController
     {
-        private readonly IEventService _eventService;
-        private readonly IMapper _mapper;
+        private readonly ICreateEventUseCase _createEventUseCase;
+        private readonly IUpdateEventUseCase _updateEventUseCase;
+        private readonly IDeleteEventUseCase _deleteEventUseCase;
+        private readonly IGetEventByIdUseCase _getEventByIdUseCase;
+        private readonly IGetEventsPageUseCase _getEventsPageUseCase;
+        private readonly IGetEventsPageByParamsUseCase _getEventsPageByParamsUseCase;
 
-        public EventsController(IEventService eventService, IMapper mapper)
+        public EventsController(ICreateEventUseCase createEventUseCase,
+                                IUpdateEventUseCase updateEventUseCase,
+                                IDeleteEventUseCase deleteEventUseCase,
+                                IGetEventByIdUseCase getEventByIdUseCase,
+                                IGetEventsPageUseCase getEventsPageUseCase,
+                                IGetEventsPageByParamsUseCase getEventsPageByParamsUseCase)
         {
-            _eventService = eventService;
-            _mapper = mapper;
+            _createEventUseCase = createEventUseCase;
+            _updateEventUseCase = updateEventUseCase;
+            _deleteEventUseCase = deleteEventUseCase;
+            _getEventByIdUseCase = getEventByIdUseCase;
+            _getEventsPageUseCase = getEventsPageUseCase;
+            _getEventsPageByParamsUseCase = getEventsPageByParamsUseCase;
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public async Task<ActionResult<Guid>> CreateEvent([FromBody] CreateEventDTO createEventDTO)
+        {
+            var eventId = await _createEventUseCase.Execute(createEventDTO);
+
+            return Ok(eventId);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPut()]
+        public async Task<IActionResult> UpdateEvent([FromBody] UpdateEventDTO updateEventDTO)
+        {
+            await _updateEventUseCase.Execute(updateEventDTO);
+
+            return Ok();
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteEvent(Guid id)
+        {
+            await _deleteEventUseCase.Execute(id);
+
+            return Ok();
         }
 
         [HttpGet("Id/{eventId}")]
         public async Task<ActionResult<EventVM>> GetEventById(Guid eventId)
         {
-            if (eventId.Equals(Guid.Empty)) throw new FluentValidation.ValidationException("Event id must not be empty!");
+            var _event = await _getEventByIdUseCase.Execute(eventId); 
 
-            var _event = await  _eventService.GetEventByIdAsync(eventId, CancellationToken.None);   
-
-            return Ok(_mapper.Map<EventVM>(_event));
+            return Ok(_event);
         }
 
         [HttpPut("Filter")]
-        public async Task<ActionResult<EventVM>> GetEventsListByParams([FromBody] EventFilterParams eventFilterParams)
+        public async Task<ActionResult<PagedResult<EventVM>>> GetEventsListByParams([FromBody] EventFilterParams eventFilterParams)
         {
-            var pagedEvents = await _eventService.GetEventsListByParamsAsync(
-                eventFilterParams.Title,
-                eventFilterParams.Category,
-                eventFilterParams.Venue,
-                eventFilterParams.Date,
-                eventFilterParams.Page,
-                10,
-                CancellationToken.None);
-
-            PagedResult<EventVM> events = new()
-            {
-                Items = _mapper.Map<List<EventVM>>(pagedEvents.Items),
-                PageNumber = pagedEvents.PageNumber,
-                TotalPages = pagedEvents.TotalPages,
-                TotalCount = pagedEvents.TotalCount,
-                PageSize = pagedEvents.PageSize
-            };
+            var events = await _getEventsPageByParamsUseCase.Execute(eventFilterParams, 10);
 
             return Ok(events);
         }
@@ -52,15 +75,7 @@ namespace EventApp
         [HttpGet("{page}")]
         public async Task<ActionResult<PagedResult<EventVM>>> GetAllEvents(int page)
         {
-            var pagedEvents = await _eventService.GetAllEventsListAsync(page, 10, CancellationToken.None);
-            PagedResult<EventVM> events = new()
-            {
-                Items = _mapper.Map<List<EventVM>>(pagedEvents.Items),
-                PageNumber = pagedEvents.PageNumber,
-                TotalPages = pagedEvents.TotalPages,
-                TotalCount = pagedEvents.TotalCount,
-                PageSize = pagedEvents.PageSize
-            };
+            var events = await _getEventsPageUseCase.Execute(page, 10);
 
             return Ok(events);
         }

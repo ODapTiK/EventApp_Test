@@ -6,11 +6,11 @@ namespace EventApp
     {
         public static IServiceCollection AddPersistence(this IServiceCollection services)
         {
-            services.AddTransient<IAdminRepository, AdminRepository>();
-            services.AddTransient<IEventRepository, EventRepository>();
-            services.AddTransient<IParticipantRepository, ParticipantRepository>();
-            services.AddTransient<IPasswordEncryptor, PasswordEncryptor>();
-            services.AddTransient<IJwtProvider, JwtProvider>();
+            services.AddScoped<IAdminRepository, AdminRepository>();
+            services.AddScoped<IEventRepository, EventRepository>();
+            services.AddScoped<IParticipantRepository, ParticipantRepository>();
+            services.AddScoped<IPasswordEncryptor, PasswordEncryptor>();
+            services.AddScoped<IJwtProvider, JwtProvider>();
             return services;
         }
     }

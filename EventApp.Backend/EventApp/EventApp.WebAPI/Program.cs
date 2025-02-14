@@ -1,15 +1,9 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using FluentValidation;
+using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.Text;
-using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using System.Text.RegularExpressions;
 using System.Text.Json.Serialization;
 
 namespace EventApp.WebAPI
@@ -112,8 +106,6 @@ namespace EventApp.WebAPI
                     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
                 });
 
-            services.AddValidatorsFromAssemblyContaining<CreateParticipantValidator>();
-
             services.AddSingleton<ICurrentUserService, CurrentUserService>();
             services.AddHttpContextAccessor();
 
@@ -125,6 +117,7 @@ namespace EventApp.WebAPI
                 try
                 {
                     var context = serviceProvider.GetRequiredService<EventAppDbContext>();
+                    context.Database.EnsureCreated();
                 }
                 catch (Exception exception)
                 {

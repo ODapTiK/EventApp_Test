@@ -10,7 +10,7 @@ services:
       - "5173:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Server=db;Port=5432;Database=ИМЯ_ВАШЕЙ_БД;Username=ИМЯ_ПОЛЬЗОВАТЕЛЯ;Password=ПАРОЛЬ
+      - ConnectionStrings__DefaultConnection=Server=db;Port=5432;Database=EventAppDB;Username=postgres;Password=ramazan225
     depends_on:
       - db
 

@@ -58,7 +58,7 @@ function App() {
           <EventCardInfo _event={currentEvent}/>
         </Modal>
         <LoginModal modalVisibility={loginModalVisibility} login={isLoginModal} setModalVisibility={setLoginModalVisibility} setIsLoginModal={setIsLoginModal}>
-          <RegisterParticipantForm isCreating={isCreateingUser} setModalVisibility={setLoginModalVisibility}/>
+          <RegisterParticipantForm isCreating={isCreateingUser} setModalVisibility={setLoginModalVisibility} setCurrentUser={setCurrentUser}/>
           <LoginForm setModalVisibility={setLoginModalVisibility} setCurrentUser={setCurrentUser} 
                       setIsAdmin={setIsAdmin} setIsAuthenticated={setIsAuthentificated}/>
         </LoginModal>

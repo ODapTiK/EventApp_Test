@@ -7,7 +7,7 @@ import CancelButton from "../../buttons/cancelButton/CancelButton";
 import baseUrl from "../../../Utils/baseUrl";
 import { useAccessToken } from "../../../Utils/AuthContext";
 
-const RegisterParticipantForm = ({setModalVisibility, isCreating=true}) => {
+const RegisterParticipantForm = ({setModalVisibility, isCreating=true, setCurrentUser}) => {
 
     const accessToken = useAccessToken();
     const defaultState = {Name: '', Surname: '', Email: '', Password: '', BirthDate: ''};
@@ -15,7 +15,6 @@ const RegisterParticipantForm = ({setModalVisibility, isCreating=true}) => {
 
     const RegisterParticipant = (e) => {
         e.preventDefault();
-        console.log(participantInfo);
         if(isCreating){
             const body = {
                 name: participantInfo.Name,
@@ -33,7 +32,8 @@ const RegisterParticipantForm = ({setModalVisibility, isCreating=true}) => {
                 if(!response.ok){
                     throw new Error(response.status);
                 }
-                return response.json()
+                setModalVisibility(false);
+                return response.json();
             })
             .catch((e) => {
                 console.error(e.message);
@@ -57,7 +57,11 @@ const RegisterParticipantForm = ({setModalVisibility, isCreating=true}) => {
                 if(!response.ok){
                     throw new Error(response.status);
                 }
-                return response.json()
+                setModalVisibility(false);
+                setCurrentUser((user) => ({...user, name: participantInfo.Name,
+                                                    surname: participantInfo.Surname,
+                                                    birthDate: participantInfo.BirthDate}));
+                return response.json();
             })
             .catch((e) => {
                 console.error(e.message);

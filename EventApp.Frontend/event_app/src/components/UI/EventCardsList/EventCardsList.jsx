@@ -20,7 +20,7 @@ const EventCardsList = ({events, isAdmin, setModalVisibility, setUpdateEventModa
                             setEvents={setEvents}
                             isParticipating={currentUser.events.some(event => event.eventId == _event.id)}
                             setCurrentUser={setCurrentUser}/>
-            )}
+                )}
         </div>  
     );
 }

@@ -65,7 +65,6 @@ export default function AuthContext({children, setIsAdmin, setIsAuthenticated, s
                         console.error(e.message);
                     })
                 }
-                console.log(jsonObject);
             })
             .catch((e) => {
                 if(e.message == 406){

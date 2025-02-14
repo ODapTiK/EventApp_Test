@@ -14,7 +14,7 @@ const EventCard = ({_event, isAuthenticated, isAdmin=false, setUpdateEventModalV
         setIsParticipation(isParticipating);
     }, [isParticipating])
 
-    const {id, title, description, venue, category, eventDateTime, participants, maxParticipants, imageBase64} = _event;
+    const {id, title, description, venue, category, eventDateTime, participants, maxParticipants, image} = _event;
 
     const accessToken = useAccessToken();
 
@@ -68,14 +68,14 @@ const EventCard = ({_event, isAuthenticated, isAdmin=false, setUpdateEventModalV
 
     const handleUpdate = (e) => {
         e.stopPropagation();
-        setUpdateId(_event.id);
+        setUpdateId(id);
         setIsCreatingEvent(false);
         setUpdateEventModalVisibility(true);
     }
 
     const handleDelete = (e) => {
         e.stopPropagation();
-        fetch(`${baseUrl}api/Admin/DeleteEvent/Event/${_event.id}`, {
+        fetch(`${baseUrl}api/Events/${_event.id}`, {
             method: "DELETE",
             headers: {"Authorization": `Bearer ${accessToken}`}
         })
@@ -95,8 +95,8 @@ const EventCard = ({_event, isAuthenticated, isAdmin=false, setUpdateEventModalV
     return(
         <div className={classes.container} onClick={onCardClick}>
             <div className={classes.imageContainer}>
-                {imageBase64 ? (
-                    <img src={imageBase64} alt={title} />
+                {image ? (
+                    <img src={image} alt={title} />
                 ) : (
                 <div>Нет изображения</div>
                 )}

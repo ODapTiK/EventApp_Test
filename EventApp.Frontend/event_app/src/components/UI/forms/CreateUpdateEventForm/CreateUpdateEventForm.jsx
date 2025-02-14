@@ -53,7 +53,7 @@ const CreateUpdateEventForm = ({isCreating=true, updateId='', setModalVisibility
                 maxParticipants: eventDetails.maxParticipants,
                 image: eventDetails.image
             }
-            fetch(`${baseUrl}api/Admin/CreateEvent/Event`, {
+            fetch(`${baseUrl}api/Events`, {
                 body: JSON.stringify(body),
                 method: "POST",
                 headers: {
@@ -65,10 +65,9 @@ const CreateUpdateEventForm = ({isCreating=true, updateId='', setModalVisibility
                 if(!response.ok){
                     throw new Error(response.status)
                 }
-                return response.text();
+                return response.json();
             })
             .then((id) => {
-                console.log(id);
                 setEvents((events) => [...events, {...body, id, participants: []}])
                 setEventDetails(defaultFormState);
             })
@@ -87,7 +86,7 @@ const CreateUpdateEventForm = ({isCreating=true, updateId='', setModalVisibility
                 maxParticipants: eventDetails.maxParticipants,
                 image: eventDetails.image
             }
-            fetch(`${baseUrl}api/Admin/UpdateEvent/Event`, {
+            fetch(`${baseUrl}api/Events`, {
                 body: JSON.stringify(body),
                 method: "PUT",
                 headers: {
@@ -108,7 +107,6 @@ const CreateUpdateEventForm = ({isCreating=true, updateId='', setModalVisibility
                 console.error(e.message);
             })
         }
-        console.log(eventDetails);
         setModalVisibility(false);
     };
 

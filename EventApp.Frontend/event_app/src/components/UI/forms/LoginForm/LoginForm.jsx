@@ -20,7 +20,7 @@ const LoginForm = ({setModalVisibility, isAdminLogin, setCurrentUser, setIsAuthe
             password: loginData.Password
         }
         if(isAdminLogin){
-            fetch(`${baseUrl}api/Admin/AuthAdmin/Auth`, {
+            fetch(`${baseUrl}api/Admin/Auth`, {
                 body: JSON.stringify(body),
                 method: "PUT",
                 headers: {"Content-type": "application/json"}
@@ -61,7 +61,7 @@ const LoginForm = ({setModalVisibility, isAdminLogin, setCurrentUser, setIsAuthe
                 localStorage.setItem("RefreshToken", jsonObject.refreshToken);
                 localStorage.setItem("isAdmin", "false");
                 setTokens(jsonObject);
-                fetch(`${baseUrl}/api/Participant`, {
+                fetch(`${baseUrl}api/Participant`, {
                     method: "GET",
                     headers: {"Authorization": `Bearer ${jsonObject.accessToken}`}
                 })

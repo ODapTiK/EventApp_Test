@@ -76,13 +76,19 @@ namespace EventApp
 
             if (user is AdminModel)
             {
-                if (populateExp) await _adminRepository.UpdateRefreshTokenAsync(user.Id, refreshToken, DateTime.UtcNow.AddDays(7), cancellationToken);
-                else await _adminRepository.UpdateRefreshTokenAsync(user.Id, refreshToken, cancellationToken);
+                var admin = await _adminRepository.FindAdminAsync(user.Id, CancellationToken.None);
+                if(admin == null) throw new AdminNotFoundException(nameof(AdminModel), user.Id);
+
+                if (populateExp) await _adminRepository.UpdateRefreshTokenAsync(admin, refreshToken, DateTime.UtcNow.AddDays(7), cancellationToken);
+                else await _adminRepository.UpdateRefreshTokenAsync(admin, refreshToken, cancellationToken);
             }
             else
             {
-                if (populateExp) await _participantRepository.UpdateRefreshTokenAsync(user.Id, refreshToken, DateTime.UtcNow.AddDays(7), cancellationToken);
-                else await _participantRepository.UpdateRefreshTokenAsync(user.Id, refreshToken, cancellationToken);
+                var participant = await _participantRepository.FindParticipantAsync(user.Id, CancellationToken.None);
+                if(participant == null) throw new ParticipantNotFoundException(nameof(ParticipantModel), user.Id);
+
+                if (populateExp) await _participantRepository.UpdateRefreshTokenAsync(participant, refreshToken, DateTime.UtcNow.AddDays(7), cancellationToken);
+                else await _participantRepository.UpdateRefreshTokenAsync(participant, refreshToken, cancellationToken);
             }
 
             return new TokenDTO(accessToken, refreshToken);
@@ -96,17 +102,17 @@ namespace EventApp
 
             var userId = principal.Claims.FirstOrDefault(c => c.Type.Equals("UserId"))?.Value;
 
-            User user = null;
+            User? user = null;
 
             if (role != null && userId != null)
             {
                 if (role.Equals("Admin"))
                 {
-                    user = await _adminRepository.GetAdminByIdAsync(Guid.Parse(userId), CancellationToken.None);
+                    user = await _adminRepository.FindAdminAsync(Guid.Parse(userId), CancellationToken.None) ?? throw new AdminNotFoundException(nameof(AdminModel), userId);
                 }
                 else if (role.Equals("Participant"))
                 {
-                    user = await _participantRepository.GetAsync(Guid.Parse(userId), CancellationToken.None);
+                    user = await _participantRepository.FindParticipantAsync(Guid.Parse(userId), CancellationToken.None) ?? throw new ParticipantNotFoundException(nameof(ParticipantModel), userId); ;
                 }
             }
 

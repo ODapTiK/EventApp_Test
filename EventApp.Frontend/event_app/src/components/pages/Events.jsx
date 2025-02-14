@@ -58,7 +58,7 @@ function Events({isAdmin,
             console.error(e.message);
         })
   }, [])                  
-
+  
   return (
     <div className="App">
       <div className={cl.container}>

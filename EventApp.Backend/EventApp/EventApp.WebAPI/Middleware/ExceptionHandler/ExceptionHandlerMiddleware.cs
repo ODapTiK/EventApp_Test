@@ -42,7 +42,7 @@ namespace EventApp
                 case ParticipantNotFoundException:
                     code = HttpStatusCode.NotFound;
                     break;
-                case AuthentificationException:
+                case AuthenticationException:
                     code = HttpStatusCode.Unauthorized;
                     break;
                 case ExcessNumberOfParticipantsException:

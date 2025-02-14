@@ -1,4 +1,5 @@
 ﻿
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
 namespace EventApp
@@ -6,45 +7,65 @@ namespace EventApp
     public class EventRepository : IEventRepository
     {
         private readonly IEventAppDbContext _dbContext;
+        private readonly IMapper _mapper;
 
-        public EventRepository(IEventAppDbContext dbContext)
+        public EventRepository(IEventAppDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
-        public async Task<PagedResult<EventModel>> GetAllEventsAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
+        public async Task<Guid> CreateAsync(Guid id, string title, string description, DateTime eventDateTime, string venue, string category, int maxParticipants, string image, CancellationToken cancellationToken)
+        {
+            var _event = new EventModel
+            {
+                Id = id,
+                Title = title,
+                Description = description,
+                EventDateTime = eventDateTime,
+                Venue = venue,
+                Category = category,
+                MaxParticipants = maxParticipants,
+                Image = image,
+            };
+
+            await _dbContext.Events.AddAsync(_event, cancellationToken);
+            await _dbContext.SaveChangesAsync(cancellationToken);
+
+            return _event.Id;
+        }
+
+        public async Task DeleteAsync(EventModel _event, CancellationToken cancellationToken)
+        {
+            _dbContext.Events.Remove(_event);
+
+            await _dbContext.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task UpdateAsync(EventModel _event, Guid eventId, string newTitle, string newDescription, DateTime newEventDateTime, string newVenue, string newCategory, int newMaxParticipants, string newImage, CancellationToken cancellationToken)
+        {
+            _event.Title = newTitle;
+            _event.Description = newDescription;
+            _event.EventDateTime = newEventDateTime;
+            _event.Venue = newVenue;
+            _event.Category = newCategory;
+            _event.MaxParticipants = newMaxParticipants;
+            _event.Image = newImage;
+
+            await _dbContext.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task<PagedResult<EventVM>> GetPageAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
             var totalCount = await _dbContext.Events.CountAsync();
             var events = await _dbContext.Events
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
-                .Select(e => new EventModel
-                {
-                    Id = e.Id,
-                    Title = e.Title,
-                    Description = e.Description,
-                    EventDateTime = e.EventDateTime,
-                    Venue = e.Venue,
-                    Category = e.Category,
-                    MaxParticipants = e.MaxParticipants,
-                    Image = e.Image,
-                    Participants = e.Participants.Select(ep => new EventParticipant
-                    {
-                        ParticipantId = ep.ParticipantId, 
-                        RegistrationDate = ep.RegistrationDate,
-                        EventId = ep.EventId, 
-                        Participant = new ParticipantModel
-                        {
-                            Name = ep.Participant.Name,
-                            Surname = ep.Participant.Surname
-                        }
-                    }).ToList()
-                })
                 .ToListAsync(cancellationToken); 
 
-            return new PagedResult<EventModel>
+            return new PagedResult<EventVM>
             {
-                Items = events,
+                Items = _mapper.Map<List<EventVM>>(events),
                 TotalCount = totalCount,
                 PageNumber = pageNumber,
                 PageSize = pageSize,
@@ -52,28 +73,35 @@ namespace EventApp
             };
         }
 
-        public async Task<EventModel> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<EventVM> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             var _event = await _dbContext.Events
                 .Include(e => e.Participants)
                 .ThenInclude(ep => ep.Participant)
                 .FirstOrDefaultAsync(x => x.Id.Equals(id), cancellationToken);
-            if (_event == null) throw new EventNotFoundException(nameof(EventModel), id);
+
+            return _mapper.Map<EventVM>(_event);
+        }
+
+        public async Task<EventModel?> FindEventAsync(Guid id, CancellationToken cancellationToken)
+        {
+            var _event = await _dbContext.Events
+                .FindAsync([id], cancellationToken);
 
             return _event;
         }
 
-        public async Task<PagedResult<EventModel>> GetByParamsAsync(string title, string category, string venue, DateTime date, int pageNumber, int pageSize, CancellationToken cancellationToken)
+        public async Task<PagedResult<EventVM>> GetPageByParamsAsync(string title, string category, string venue, DateTime date, int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
             var eventsQueryable = _dbContext.Events
                 .AsQueryable();
 
             if(!string.IsNullOrWhiteSpace(title))
-                eventsQueryable = eventsQueryable.Where(e => e.Title.Contains(title.ToLower()));
+                eventsQueryable = eventsQueryable.Where(e => e.Title.ToLower().Contains(title.ToLower()));
             if(!string.IsNullOrWhiteSpace(category))
-                eventsQueryable = eventsQueryable.Where(e => e.Category.Contains(category.ToLower()));
+                eventsQueryable = eventsQueryable.Where(e => e.Category.ToLower().Contains(category.ToLower()));
             if(!string.IsNullOrWhiteSpace(venue))
-                eventsQueryable = eventsQueryable.Where(e => e.Venue.Contains(venue.ToLower()));
+                eventsQueryable = eventsQueryable.Where(e => e.Venue.ToLower().Contains(venue.ToLower()));
             if(!(date == DateTime.UnixEpoch))
                 eventsQueryable = eventsQueryable.Where(e => e.EventDateTime.Date == date.Date);
 
@@ -82,33 +110,11 @@ namespace EventApp
             var events = await eventsQueryable
                .Skip((pageNumber - 1) * pageSize)
                .Take(pageSize)
-               .Select(e => new EventModel
-               {
-                   Id = e.Id,
-                   Title = e.Title,
-                   Description = e.Description,
-                   EventDateTime = e.EventDateTime,
-                   Venue = e.Venue,
-                   Category = e.Category,
-                   MaxParticipants = e.MaxParticipants,
-                   Image = e.Image,
-                   Participants = e.Participants.Select(ep => new EventParticipant
-                   {
-                       ParticipantId = ep.ParticipantId,
-                       RegistrationDate = ep.RegistrationDate,
-                       EventId = ep.EventId,
-                       Participant = new ParticipantModel
-                       {
-                           Name = ep.Participant.Name,
-                           Surname = ep.Participant.Surname
-                       }
-                   }).ToList()
-               })
                .ToListAsync(cancellationToken);
 
-            return new PagedResult<EventModel>()
+            return new PagedResult<EventVM>()
             {
-                Items = events,
+                Items = _mapper.Map<List<EventVM>>(events),
                 TotalCount = totalCount,
                 PageNumber = pageNumber,
                 PageSize = pageSize,
@@ -116,22 +122,5 @@ namespace EventApp
             };
         }
 
-       /* public async Task<EventModel> GetByTitleAsync(string title, CancellationToken cancellationToken)
-        {
-            var _event = await _dbContext.Events.FirstOrDefaultAsync(x => x.Title.Equals(title), cancellationToken);    
-            if (_event == null) throw new EventNotFoundException(nameof(EventModel), title);
-
-            return _event;
-        }
-
-        public async Task<List<EventModel>> GetEventsByCategoryAsync(string category, CancellationToken cancellationToken) => 
-            await _dbContext.Events.Where(x => x.Category.Equals(category)).ToListAsync(cancellationToken);
-        
-
-        public async Task<List<EventModel>> GetEventsByDateAsync(DateTime date, CancellationToken cancellationToken) =>
-            await _dbContext.Events.Where(x => x.EventDateTime.Date.Equals(date.Date)).ToListAsync(cancellationToken);
-
-        public async Task<List<EventModel>> GetEventsByVenueAsync(string venue, CancellationToken cancellationToken) =>
-            await _dbContext.Events.Where(x => x.Venue.Equals(venue)).ToListAsync(cancellationToken);*/
     }
 }
