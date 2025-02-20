@@ -24,12 +24,14 @@ namespace EventApp
             var participant = await _participantRepository.FindParticipantAsync(userId, CancellationToken.None);
 
             if (participant == null) throw new ParticipantNotFoundException(nameof(ParticipantModel), userId);
-            else await _participantRepository.UpdateAsync(
-                participant,
-                updateParticipantDTO.Name,
-                updateParticipantDTO.Surname,
-                updateParticipantDTO.BirthDate.ToUniversalTime(),
-                CancellationToken.None);
+
+            else
+            {
+                participant.Name = updateParticipantDTO.Name;
+                participant.BirthDate = updateParticipantDTO.BirthDate.ToUniversalTime();
+                participant.Surname = updateParticipantDTO.Surname;
+                await _participantRepository.UpdateAsync(CancellationToken.None);
+            }
         }
     }
 }

@@ -4,7 +4,7 @@ import classes from "./EventCard.module.css"
 import { useAccessToken } from "../../Utils/AuthContext";
 import baseUrl from "../../Utils/baseUrl";
 
-const EventCard = ({_event, isAuthenticated, isAdmin=false, setUpdateEventModalVisibility=()=>{}, setCurrentEvent=()=>{}, 
+const EventCard = ({_event, currentUser, isAuthenticated, isAdmin=false, setUpdateEventModalVisibility=()=>{}, setCurrentEvent=()=>{}, 
                     setModalVisibility, setIsCreatingEvent, setUpdateId, setEvents, isParticipating,
                     setCurrentUser}) => {
 
@@ -38,8 +38,10 @@ const EventCard = ({_event, isAuthenticated, isAdmin=false, setUpdateEventModalV
                 }
                 else{
                     setIsParticipation(!participation);
-                    const {id, ...rest} = _event
-                    setCurrentUser((user) => ({...user, events: [...user.events, {eventId: id, ...rest}]}))
+                    const {id, ...rest} = _event;
+                    setCurrentUser((user) => ({...user, events: [...user.events, {eventId: id, ...rest}]}));
+                    setEvents((events) => events.map(item => item.id === _event.id ? 
+                        {...item, participants: [...item.participants, {participant: currentUser, id: currentUser.id}]} : item))
                 }
             })
             .catch((e) => {
@@ -57,7 +59,9 @@ const EventCard = ({_event, isAuthenticated, isAdmin=false, setUpdateEventModalV
                 }
                 else{
                     setIsParticipation(!participation);
-                    setCurrentUser((user) => ({...user, events: user.events.filter(e => e.eventId !== _event.id)}))
+                    setCurrentUser((user) => ({...user, events: user.events.filter(e => e.eventId !== _event.id)}));
+                    setEvents((events) => events.map(item => item.id === _event.id ? 
+                        {...item, participants: item.participants.filter(p => p.id !== currentUser.id)} : item))
                 }
             })
             .catch((e) => {

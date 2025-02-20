@@ -19,7 +19,8 @@ namespace EventApp
                 .ForMember(vm => vm.Name, opt => opt.MapFrom(model => model.Name))
                 .ForMember(vm => vm.Surname, opt => opt.MapFrom(model => model.Surname))
                 .ForMember(vm => vm.BirthDate, opt => opt.MapFrom(model => model.BirthDate))
-                .ForMember(vm => vm.Email, opt => opt.MapFrom(model => model.Email));
+                .ForMember(vm => vm.Email, opt => opt.MapFrom(model => model.Email))
+                .ReverseMap();
         }
     }
 }

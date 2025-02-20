@@ -29,7 +29,7 @@ namespace EventApp
             _getEventsPageByParamsUseCase = getEventsPageByParamsUseCase;
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "AdminOnly")]
         [HttpPost]
         public async Task<ActionResult<Guid>> CreateEvent([FromBody] CreateEventDTO createEventDTO)
         {
@@ -38,7 +38,7 @@ namespace EventApp
             return Ok(eventId);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "AdminOnly")]
         [HttpPut()]
         public async Task<IActionResult> UpdateEvent([FromBody] UpdateEventDTO updateEventDTO)
         {
@@ -47,7 +47,7 @@ namespace EventApp
             return Ok();
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "AdminOnly")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEvent(Guid id)
         {

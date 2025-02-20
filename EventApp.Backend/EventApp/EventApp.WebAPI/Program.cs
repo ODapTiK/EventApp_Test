@@ -5,6 +5,7 @@ using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.Text;
 using System.Text.Json.Serialization;
+using DotNetEnv;
 
 namespace EventApp.WebAPI
 {
@@ -16,6 +17,16 @@ namespace EventApp.WebAPI
 
             var services = builder.Services;
             var configuration = builder.Configuration;
+
+            configuration.AddEnvironmentVariables();
+
+            services.AddAutoMapper(cfg =>
+            {
+                cfg.AddProfile(new AssemblyMappingProfile(Assembly.GetExecutingAssembly()));
+                cfg.AddProfile(new AssemblyMappingProfile(typeof(IEventAppDbContext).Assembly));
+                cfg.AddProfile(new AssemblyMappingProfile(typeof(IParticipantRepository).Assembly));
+            });
+
             services.AddDbContext<EventAppDbContext>(options =>
                 options.UseNpgsql(configuration.GetConnectionString("EventAppDB"), npgsqlOptionsAction => 
                     npgsqlOptionsAction.EnableRetryOnFailure(
@@ -25,12 +36,11 @@ namespace EventApp.WebAPI
                     ));
             services.AddScoped<IEventAppDbContext>(provider => provider.GetService<EventAppDbContext>());
 
-            services.Configure<JwtOptions>(configuration.GetSection(nameof(JwtOptions)));
-            services.AddAutoMapper(cfg =>
+            var jwtOptions = new JwtOptions()
             {
-                cfg.AddProfile(new AssemblyMappingProfile(Assembly.GetExecutingAssembly()));
-                cfg.AddProfile(new AssemblyMappingProfile(typeof(IEventAppDbContext).Assembly));
-            });
+                ExpiredMinutes = int.Parse(Environment.GetEnvironmentVariable("JWT_EXPIRED_TIME") ?? throw new InvalidOperationException("JWT_EXPIRED_TIME is not set in environment variables")),
+                Key = Environment.GetEnvironmentVariable("JWT_KEY") ?? throw new InvalidOperationException("JWT_KEY is not set in environment variables")
+            };
 
             services.AddApplication();
             services.AddPersistence();
@@ -53,7 +63,7 @@ namespace EventApp.WebAPI
                 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
                 {
                     options.IncludeErrorDetails = true;
-                    var jwtOptions = configuration.GetSection(nameof(JwtOptions)).Get<JwtOptions>();
+
                     options.TokenValidationParameters = new()
                     {
                         ValidateIssuer = false,

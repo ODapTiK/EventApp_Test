@@ -9,12 +9,12 @@ namespace EventApp
 {
     public class JwtProvider : IJwtProvider
     {
-        private readonly JwtOptions _Options;
+        private readonly IJwtOptions _Options;
         private readonly IAdminRepository _adminRepository;
         private readonly IParticipantRepository _participantRepository;
-        public JwtProvider(IOptions<JwtOptions> options, IAdminRepository adminRepository, IParticipantRepository participantRepository)
+        public JwtProvider(IJwtOptions options, IAdminRepository adminRepository, IParticipantRepository participantRepository)
         {
-            _Options = options.Value;
+            _Options = options;
             _adminRepository = adminRepository;
             _participantRepository = participantRepository;
         }
@@ -79,16 +79,33 @@ namespace EventApp
                 var admin = await _adminRepository.FindAdminAsync(user.Id, CancellationToken.None);
                 if(admin == null) throw new AdminNotFoundException(nameof(AdminModel), user.Id);
 
-                if (populateExp) await _adminRepository.UpdateRefreshTokenAsync(admin, refreshToken, DateTime.UtcNow.AddDays(7), cancellationToken);
-                else await _adminRepository.UpdateRefreshTokenAsync(admin, refreshToken, cancellationToken);
+                if (populateExp)
+                {
+                    admin.RefreshToken = refreshToken;
+                    admin.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
+                    await _adminRepository.UpdateAsync(CancellationToken.None);
+                }
+                else
+                {
+                    admin.RefreshToken = refreshToken;
+                    await _adminRepository.UpdateAsync(CancellationToken.None);
+                }
             }
             else
             {
                 var participant = await _participantRepository.FindParticipantAsync(user.Id, CancellationToken.None);
                 if(participant == null) throw new ParticipantNotFoundException(nameof(ParticipantModel), user.Id);
 
-                if (populateExp) await _participantRepository.UpdateRefreshTokenAsync(participant, refreshToken, DateTime.UtcNow.AddDays(7), cancellationToken);
-                else await _participantRepository.UpdateRefreshTokenAsync(participant, refreshToken, cancellationToken);
+                if (populateExp)
+                {
+                    participant.RefreshToken = refreshToken;
+                    participant.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
+                    await _participantRepository.UpdateAsync(CancellationToken.None);
+                }
+                else {
+                    participant.RefreshToken = refreshToken;
+                    await _participantRepository.UpdateAsync(CancellationToken.None);
+                }
             }
 
             return new TokenDTO(accessToken, refreshToken);

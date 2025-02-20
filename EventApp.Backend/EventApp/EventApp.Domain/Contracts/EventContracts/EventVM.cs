@@ -36,7 +36,9 @@ namespace EventApp
                         Name = ep.Participant.Name,
                         Surname = ep.Participant.Surname
                     }
-                }).ToList()));
+                })
+                .ToList()))
+                .ReverseMap();
         }
     }
 }

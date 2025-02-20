@@ -33,7 +33,7 @@ namespace EventApp
             return Ok(adminId);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "AdminOnly")]
         [HttpDelete]
         public async Task<IActionResult> DeleteAdmin()
         {

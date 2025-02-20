@@ -47,18 +47,8 @@ namespace EventApp
             return admin;
         }
 
-        public async Task UpdateRefreshTokenAsync(AdminModel admin, string refreshToken, DateTime refreshTokenExpiryTime, CancellationToken cancellationToken)
+        public async Task UpdateAsync(CancellationToken cancellationToken)
         {
-            admin.RefreshToken = refreshToken;
-            admin.RefreshTokenExpiryTime = refreshTokenExpiryTime;
-
-            await _dbContext.SaveChangesAsync(cancellationToken);
-        }
-
-        public async Task UpdateRefreshTokenAsync(AdminModel admin, string refreshToken, CancellationToken cancellationToken)
-        {
-            admin.RefreshToken = refreshToken;
-
             await _dbContext.SaveChangesAsync(cancellationToken);
         }
     }

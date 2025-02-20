@@ -42,16 +42,8 @@ namespace EventApp
             await _dbContext.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task UpdateAsync(EventModel _event, Guid eventId, string newTitle, string newDescription, DateTime newEventDateTime, string newVenue, string newCategory, int newMaxParticipants, string newImage, CancellationToken cancellationToken)
+        public async Task UpdateAsync(CancellationToken cancellationToken)
         {
-            _event.Title = newTitle;
-            _event.Description = newDescription;
-            _event.EventDateTime = newEventDateTime;
-            _event.Venue = newVenue;
-            _event.Category = newCategory;
-            _event.MaxParticipants = newMaxParticipants;
-            _event.Image = newImage;
-
             await _dbContext.SaveChangesAsync(cancellationToken);
         }
 
@@ -59,6 +51,8 @@ namespace EventApp
         {
             var totalCount = await _dbContext.Events.CountAsync();
             var events = await _dbContext.Events
+                .Include(e => e.Participants)
+                .ThenInclude(ep => ep.Participant)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync(cancellationToken); 
@@ -94,6 +88,8 @@ namespace EventApp
         public async Task<PagedResult<EventVM>> GetPageByParamsAsync(string title, string category, string venue, DateTime date, int pageNumber, int pageSize, CancellationToken cancellationToken)
         {
             var eventsQueryable = _dbContext.Events
+                .Include(e => e.Participants)
+                .ThenInclude(ep => ep.Participant)
                 .AsQueryable();
 
             if(!string.IsNullOrWhiteSpace(title))

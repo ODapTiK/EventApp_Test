@@ -120,26 +120,8 @@ namespace EventApp
             await _dbContext.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task UpdateAsync(ParticipantModel participant, string newName, string newSurname, DateTime newBirthDate, CancellationToken cancellationToken)
+        public async Task UpdateAsync(CancellationToken cancellationToken)
         {
-            participant.Name = newName;
-            participant.BirthDate = newBirthDate;
-            participant.Surname = newSurname;
-
-            await _dbContext.SaveChangesAsync(cancellationToken);
-        }
-        public async Task UpdateRefreshTokenAsync(ParticipantModel participant, string refreshToken, DateTime refreshTokenExpiryTime, CancellationToken cancellationToken)
-        {
-            participant.RefreshToken = refreshToken;
-            participant.RefreshTokenExpiryTime = refreshTokenExpiryTime;
-
-            await _dbContext.SaveChangesAsync(cancellationToken);
-        }
-
-        public async Task UpdateRefreshTokenAsync(ParticipantModel participant, string refreshToken, CancellationToken cancellationToken)
-        {
-            participant.RefreshToken = refreshToken;
-
             await _dbContext.SaveChangesAsync(cancellationToken);
         }
     }

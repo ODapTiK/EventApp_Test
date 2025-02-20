@@ -25,16 +25,14 @@ namespace EventApp
             if (_event == null) throw new EventNotFoundException(nameof(updateEventDTO), updateEventDTO.Id);
             else
             {
+                _event.Title = updateEventDTO.Title;
+                _event.Description = updateEventDTO.Description;
+                _event.EventDateTime = updateEventDTO.EventDateTime.ToUniversalTime();
+                _event.Venue = updateEventDTO.Venue;
+                _event.Category = updateEventDTO.Category;
+                _event.MaxParticipants = updateEventDTO.MaxParticipants;
+                _event.Image = updateEventDTO.Image;
                 await _eventRepository.UpdateAsync(
-                    _event,
-                    updateEventDTO.Id,
-                    updateEventDTO.Title,
-                    updateEventDTO.Description,
-                    updateEventDTO.EventDateTime.ToUniversalTime(),
-                    updateEventDTO.Venue,
-                    updateEventDTO.Category,
-                    updateEventDTO.MaxParticipants,
-                    updateEventDTO.Image,
                     CancellationToken.None);
             }
         }

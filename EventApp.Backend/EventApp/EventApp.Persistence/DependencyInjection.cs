@@ -11,6 +11,7 @@ namespace EventApp
             services.AddScoped<IParticipantRepository, ParticipantRepository>();
             services.AddScoped<IPasswordEncryptor, PasswordEncryptor>();
             services.AddScoped<IJwtProvider, JwtProvider>();
+            services.AddScoped<IJwtOptions, JwtOptions>();
             return services;
         }
     }

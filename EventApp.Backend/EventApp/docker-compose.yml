@@ -11,6 +11,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Server=db;Port=5432;Database=EventAppDB;Username=postgres;Password=ramazan225
+      - JWT_KEY=Idnofodf65fgUS7dnFlnUYFleid92GDvgc$f3fhdlFFKUbfkdfJf743hHDj2
+      - JWT_EXPIRED_TIME=15
     depends_on:
       - db
 
